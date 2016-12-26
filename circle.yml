@@ -1,8 +1,0 @@
-machine:
-
-  # Version of gradle to use
-  gradle:
-    version:
-      2.9
-
-  
