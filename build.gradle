@@ -39,7 +39,7 @@ configurations {
 }
 
 dependencies {
-    compile('org.springframework.cloud:spring-cloud-cloudfoundry-discovery')
+    compile('org.springframework.cloud:spring-cloud-cloudfoundry-discovery:1.0.1.BUILD-SNAPSHOT')
     compile('org.springframework.boot:spring-boot-starter-cloud-connectors')
     compile('org.springframework.cloud:spring-cloud-starter')
     compile('org.springframework.boot:spring-boot-starter-data-rest')
