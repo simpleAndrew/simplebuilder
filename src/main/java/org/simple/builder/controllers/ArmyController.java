@@ -1,6 +1,7 @@
 package org.simple.builder.controllers;
 
-import org.simple.builder.magic.AllMightyProvider;
+import org.simple.builder.magic.AllMightyProviderAsItShouldBe;
+import org.simple.builder.resources.assemblers.ArmyAssembler;
 import org.simple.builder.resources.meta.ArmyResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityLinks;
@@ -21,10 +22,12 @@ import java.util.Collections;
 public class ArmyController {
 
     @Autowired
-    private AllMightyProvider provider;
+    private AllMightyProviderAsItShouldBe provider;
 
     @Autowired
     private EntityLinks links;
+
+    private final ArmyAssembler armyAssembler = new ArmyAssembler();
 
     @RequestMapping(method = RequestMethod.GET)
     public HttpEntity getAvailableArmies() {
@@ -34,10 +37,9 @@ public class ArmyController {
     @RequestMapping(value = "/{armyId}", method = RequestMethod.GET)
     public HttpEntity<ArmyResource> getArmy(@PathVariable("armyId") String armyId) {
 
-        ArmyResource armyResource = provider.getArmy(armyId);
+        ArmyResource armyResource = armyAssembler.toResource(provider.getArmy(armyId));
 
         armyResource.add(
-                links.linkToSingleResource(ArmyResource.class, armyId).withSelfRel(),
                 links.linkToCollectionResource(ArmyResource.class).withRel("armies")
         );
 
