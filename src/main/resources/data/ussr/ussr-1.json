@@ -1,0 +1,12 @@
+{
+  "nation": "USSR",
+  "name" : "Red Banner Tank Division",
+  "metaId": "ussr-army-1",
+  "formations": [
+    {
+      "name": "T-72 Tank Battalion",
+      "metaId":"ussr-t72-f"
+    }
+  ]
+
+}
