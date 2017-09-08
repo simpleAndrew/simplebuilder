@@ -1,11 +1,8 @@
 package org.simple.builder.controllers;
 
-import org.simple.builder.magic.AllMightyProviderAsItShouldBe;
-import org.simple.builder.resources.assemblers.ArmyAssembler;
-import org.simple.builder.resources.meta.ArmyResource;
+import org.simple.builder.model.dao.TankDeport;
+import org.simple.builder.model.meta.core.Tank;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.EntityLinks;
-import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,36 +12,26 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("armies")
-@ExposesResourceFor(ArmyResource.class)
 public class ArmyController {
 
     @Autowired
-    private AllMightyProviderAsItShouldBe provider;
-
-    @Autowired
-    private EntityLinks links;
-
-    private final ArmyAssembler armyAssembler = new ArmyAssembler();
+    private TankDeport deport;
 
     @RequestMapping(method = RequestMethod.GET)
     public HttpEntity getAvailableArmies() {
         return new ResponseEntity<>(Collections.emptyList(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{armyId}", method = RequestMethod.GET)
-    public HttpEntity<ArmyResource> getArmy(@PathVariable("armyId") String armyId) {
+    @RequestMapping(value = "/tanks/{tankName}", method = RequestMethod.GET)
+    public HttpEntity<Tank> getTank(@PathVariable("tankName") String tankName) {
+        Optional<Tank> tankProfile = deport.getTankProfile(tankName);
 
-        ArmyResource armyResource = armyAssembler.toResource(provider.getArmy(armyId));
-
-        armyResource.add(
-                links.linkToCollectionResource(ArmyResource.class).withRel("armies")
-        );
-
-
-        return new ResponseEntity<>(armyResource, HttpStatus.OK);
+        return tankProfile.map(ResponseEntity::ok)
+        .orElse(ResponseEntity.noContent().build());
     }
 
 }

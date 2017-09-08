@@ -1,8 +1,6 @@
 package org.simple.builder.resources.meta;
 
-import org.springframework.hateoas.ResourceSupport;
-
-public class FormationResource extends ResourceSupport {
+public class FormationResource{
 
     private String name;
 }
