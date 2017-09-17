@@ -15,10 +15,14 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.PrePersist;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,6 +32,7 @@ import java.util.List;
 @AllArgsConstructor
 
 @Entity
+@EntityListeners(Weapon.WeaponsDefaultsListener.class)
 public class Weapon {
 
     @Id
@@ -38,6 +43,7 @@ public class Weapon {
     private int antiTankRating;
     private D6Check firepower;
 
+    @Enumerated(EnumType.STRING)
     private Type type;
 
     @Embedded
@@ -46,10 +52,11 @@ public class Weapon {
     @Embedded
     private Range range;
 
-    @Embedded @AttributeOverrides(
+    @Embedded
+    @AttributeOverrides(
             {
-                @AttributeOverride(name = "inches", column = @Column(name = "minimal_inches")),
-                @AttributeOverride(name = "centimeters", column = @Column(name = "minimal_centimeters"))
+                    @AttributeOverride(name = "inches", column = @Column(name = "minimal_inches")),
+                    @AttributeOverride(name = "centimeters", column = @Column(name = "minimal_centimeters"))
             }
     )
     private Range minimalRange;
@@ -64,5 +71,16 @@ public class Weapon {
     public enum Type {
         ARTILLERY,
         DIRECT
+    }
+
+    public static class WeaponsDefaultsListener {
+
+        @PrePersist
+        void setDefaults(Weapon weapon) {
+            if (weapon.getType() == null) {
+                weapon.setType(Type.DIRECT);
+            }
+        }
+
     }
 }
