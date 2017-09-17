@@ -12,21 +12,23 @@ import org.simple.builder.model.meta.basic.types.D6Check;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@TestPropertySource(locations = "classpath:test-application.properties")
+@ActiveProfiles("test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class WeaponRepoTest {
 
+    public static final String WEAPON_NAME = "5 cm KwK 38 L/42";
     @Autowired
     private WeaponRepo repo;
 
@@ -83,9 +85,24 @@ public class WeaponRepoTest {
         assertThat(heats).contains(heat);
     }
 
+
+    @Test
+    public void shouldSetDefaultWeaponTypeOnCreation() {
+        //given
+        Weapon kwk = buildKwK();
+
+        //when
+        repo.save(kwk);
+
+        //then
+        Optional<Weapon> byName = repo.findByName(WEAPON_NAME).stream().findFirst();
+
+        assertThat(byName.get()).hasFieldOrPropertyWithValue("type", Weapon.Type.DIRECT);
+    }
+
     private Weapon buildKwK() {
         return Weapon.builder()
-                .name("5 cm KwK 38 L/42")
+                .name(WEAPON_NAME)
                 .antiTankRating(8)
                 .firepower(D6Check.FOUR_PLUS)
                 .rateOfFire(RateOfFire.gun(2))
