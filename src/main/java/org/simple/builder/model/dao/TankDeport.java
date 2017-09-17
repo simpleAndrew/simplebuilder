@@ -1,10 +1,10 @@
 package org.simple.builder.model.dao;
 
-import org.simple.builder.model.meta.basic.Attributes;
 import org.simple.builder.model.meta.basic.Movement;
 import org.simple.builder.model.meta.basic.fighter.Chassis;
 import org.simple.builder.model.meta.basic.fighter.RateOfFire;
 import org.simple.builder.model.meta.basic.fighter.Weapon;
+import org.simple.builder.model.meta.basic.specials.WeaponsSpecialRule;
 import org.simple.builder.model.meta.core.Tank;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +13,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static org.simple.builder.model.meta.basic.D6Check.FOUR_PLUS;
-import static org.simple.builder.model.meta.basic.D6Check.SIX_PLUS;
-import static org.simple.builder.model.meta.basic.D6Check.THREE_PLUS;
 import static org.simple.builder.model.meta.basic.Range.ofInches;
+import static org.simple.builder.model.meta.basic.types.D6Check.FOUR_PLUS;
+import static org.simple.builder.model.meta.basic.types.D6Check.SIX_PLUS;
+import static org.simple.builder.model.meta.basic.types.D6Check.THREE_PLUS;
 
 @Service
 public class TankDeport {
@@ -71,7 +71,7 @@ public class TankDeport {
                         .rateOfFire(RateOfFire.gun(2))
                         .antiTankRating(9)
                         .firepower(THREE_PLUS)
-                        .specials(Collections.singletonList(new Attributes("HEAT", "Target Armour is not increased for range over 16\"")))
+                        .specials(Collections.singletonList(new WeaponsSpecialRule("HEAT", "Target Armour is not increased for range over 16\"")))
                         .build(),
                 Weapon.builder()
                         .name("Panzer III short 5cm")

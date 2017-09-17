@@ -1,4 +1,4 @@
-package org.simple.builder.model.meta.basic;
+package org.simple.builder.model.meta.basic.types;
 
 public enum BaseSize {
 

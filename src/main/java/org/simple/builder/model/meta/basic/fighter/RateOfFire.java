@@ -1,12 +1,20 @@
 package org.simple.builder.model.meta.basic.fighter;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Value
+import javax.persistence.Embeddable;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+
+@Embeddable
 public class RateOfFire {
 
-    int halted;
-    int moving;
+    private int halted;
+    private int moving;
 
     public static RateOfFire mg(int rof) {
         return new RateOfFire(rof, rof);
