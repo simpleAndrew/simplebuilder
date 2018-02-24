@@ -22,9 +22,6 @@ public abstract class SpecialRule {
     private String name;
     private String description;
 
-
-
-
     public SpecialRule(String name, String description) {
         this.name = name;
         this.description = description;

@@ -41,6 +41,8 @@ public class Weapon {
     private String name;
 
     private int antiTankRating;
+
+    @Enumerated(EnumType.STRING)
     private D6Check firepower;
 
     @Enumerated(EnumType.STRING)
@@ -64,7 +66,7 @@ public class Weapon {
     @ManyToMany(cascade = CascadeType.PERSIST)
     private List<WeaponsSpecialRule> specials = Collections.emptyList();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<CoreFighter> users = Collections.emptyList();
 
 

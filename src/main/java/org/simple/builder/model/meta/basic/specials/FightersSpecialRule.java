@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.simple.builder.model.meta.core.CoreFighter;
 
-import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
@@ -16,7 +15,7 @@ import javax.persistence.ManyToMany;
 import java.util.List;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, exclude = {"fighters"})
 
 @Entity
 @Inheritance(strategy= InheritanceType.SINGLE_TABLE)
@@ -28,6 +27,6 @@ public class FightersSpecialRule extends SpecialRule {
         super(name, description);
     }
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<CoreFighter> weapons;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<CoreFighter> fighters;
 }

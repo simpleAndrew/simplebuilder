@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import org.simple.builder.model.meta.basic.Movement;
 import org.simple.builder.model.meta.basic.fighter.Chassis;
 import org.simple.builder.model.meta.basic.fighter.Weapon;
+import org.simple.builder.model.meta.basic.specials.FightersSpecialRule;
 
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
@@ -30,8 +31,8 @@ public class Tank extends CoreFighter {
     private final Chassis chassis;
 
     @Builder
-    private Tank(Long id, String name, List<Weapon> weapons, Movement movement, Chassis chassis) {
-        super(id, name, weapons, movement);
+    private Tank(Long id, String name, List<Weapon> weapons, Movement movement, Chassis chassis, List<FightersSpecialRule> specialRules) {
+        super(id, name, movement, weapons, specialRules);
         this.chassis = chassis;
     }
 }
